@@ -45,27 +45,32 @@ jQuery(() => {
         }
     }
 
-    // 2. Встраиваем кнопку 7-м самостоятельным элементом в ряд фильтров (на одной линии со всеми!)
+    // 2. Универсальный поиск ряда иконок (работает и на ПК, и на мобилках!)
     function injectIncognitoButton() {
         if ($('#st-incognito-btn').length > 0) return;
 
-        const folderIcon = $('#right-nav-panel .fa-folder-plus').first();
-        const filterIcon = $('#right-nav-panel [class*="fa-filter"]').last();
-        if (!folderIcon.length || !filterIcon.length) return;
+        const panel = $('#right-nav-panel, #rm_characters_block');
+        if (!panel.length) return;
 
-        // Находим общий родительский ряд, в котором лежат все 6 иконок!
-        const rowContainer = folderIcon.parents().has(filterIcon).first();
-        if (!rowContainer.length) return;
+        // Ищем любую из стандартных иконок этого ряда
+        const firstAnchor = panel.find('.fa-folder-plus, .fa-star, .fa-tags, .fa-tag').first();
+        const lastAnchor = panel.find('[class*="fa-filter"], .fa-tags, .fa-tag, .fa-cog, .fa-gear').last();
+        if (!firstAnchor.length || !lastAnchor.length) return;
 
-        // Находим внешнюю ячейку 3-й кнопки (папки) и внешнюю ячейку 6-й кнопки (воронки)
-        const folderSlot = rowContainer.children().filter((_, el) => el === folderIcon[0] || $.contains(el, folderIcon[0])).first();
-        const funnelSlot = rowContainer.children().filter((_, el) => el === filterIcon[0] || $.contains(el, filterIcon[0])).first();
-        if (!folderSlot.length || !funnelSlot.length) return;
+        // Находим общий ряд-контейнер
+        let rowContainer = firstAnchor.parents().filter((_, el) => $.contains(el, lastAnchor[0])).first();
+        if (!rowContainer.length) {
+            rowContainer = firstAnchor.parent();
+        }
 
-        // Клонируем идеально ровную кнопку папки и меняем иконку на глаз
-        const newBtn = folderSlot.clone(false);
+        const sampleSlot = rowContainer.children().filter((_, el) => el === firstAnchor[0] || $.contains(el, firstAnchor[0])).first();
+        const endSlot = rowContainer.children().filter((_, el) => el === lastAnchor[0] || $.contains(el, lastAnchor[0])).last();
+        if (!sampleSlot.length || !endSlot.length) return;
+
+        const newBtn = sampleSlot.clone(false);
         newBtn.attr('id', 'st-incognito-btn');
         newBtn.removeAttr('data-i18n');
+        newBtn.show();
 
         const replaceWithEye = (el) => {
             const clsList = (el.attr('class') || '').split(/\s+/);
@@ -77,8 +82,8 @@ jQuery(() => {
             el.addClass('fa-solid fa-eye');
         };
 
-        if (newBtn.find('.fa-folder-plus, i').length) {
-            replaceWithEye(newBtn.find('.fa-folder-plus, i').first());
+        if (newBtn.find('i').length) {
+            replaceWithEye(newBtn.find('i').first());
         } else {
             replaceWithEye(newBtn);
         }
@@ -91,8 +96,7 @@ jQuery(() => {
             applyIncognitoState();
         });
 
-        // Ставим 7-м элементом в ряд, снаружи от воронки!
-        funnelSlot.after(newBtn);
+        endSlot.after(newBtn);
         applyIncognitoState();
     }
 
