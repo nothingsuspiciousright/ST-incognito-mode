@@ -1,11 +1,7 @@
 /* ================= КНОПКА ИНКОГНИТО В РЯДУ ФИЛЬТРОВ ================= */
 #st-incognito-btn {
-    display: inline-flex !important;
-    visibility: visible !important;
-    flex-shrink: 0 !important;
     cursor: pointer !important;
     transition: color 0.25s ease, filter 0.25s ease, opacity 0.25s ease !important;
-}
 }
 
 #st-incognito-btn.active-incognito {
