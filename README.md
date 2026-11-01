@@ -26,7 +26,7 @@ Silly Tavern Incognito Mode Extension
 2. Вставьте ссылку на репозиторий:
    ```text
  https://github.com/nothingsuspiciousright/ST-incognito-mode
- ```
+
 
 # 🌐 English Description
 
