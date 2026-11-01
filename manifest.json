@@ -1,0 +1,11 @@
+{
+    "display_name": "Incognito Mode (Режим Забытых Душ)",
+    "loading_order": 115,
+    "requires": [],
+    "optional": [],
+    "js": "index.js",
+    "css": "style.css",
+    "author": "ricebowl",
+    "version": "1.0.0",
+    "homePage": ""
+}

@@ -1,0 +1,72 @@
+/* ================= КНОПКА ИНКОГНИТО В РЯДУ ФИЛЬТРОВ ================= */
+#st-incognito-btn {
+    cursor: pointer !important;
+    transition: color 0.25s ease, filter 0.25s ease, opacity 0.25s ease !important;
+}
+
+#st-incognito-btn.active-incognito {
+    color: var(--customThemeColor, #ffffff) !important;
+    opacity: 1 !important;
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.65)) !important;
+}
+
+/* Плавный переход для аватарок, имён и заднего фона */
+#rm_print_characters_block .avatar img,
+.avatars_inline .avatar img,
+#rm_ch_create_block .avatar img,
+#rm_print_characters_block .ch_name,
+#bg1,
+#bg_custom {
+    transition: filter 0.35s ease, opacity 0.35s ease !important;
+}
+
+/* ================= АКТИВНЫЙ РЕЖИМ: ЧЁРНЫЙ ФОН, БЛЮР В ХЛАМ И СКРЫТЫЕ ИМЕНА ================= */
+
+/* 0. Делаем ТОЛЬКО задний фон полностью ЧЁРНЫМ (не трогая сам интерфейс!) */
+body.st-incognito-active {
+    background-color: #000000 !important;
+}
+
+body.st-incognito-active #bg1,
+body.st-incognito-active #bg_custom {
+    opacity: 0 !important;
+    filter: brightness(0) !important;
+}
+
+/* 1. Заблюриваем аватарки В ХЛАМ (blur 22px) строго внутри контура карты Таро (clip-path) */
+body.st-incognito-active #rm_print_characters_block .avatar img,
+body.st-incognito-active .avatars_inline .avatar img,
+body.st-incognito-active #rm_ch_create_block .avatar img,
+body.st-incognito-active #quickPersonaMenu li img.quickPersonaMenuImg {
+    filter: grayscale(100%) blur(22px) brightness(0.45) contrast(1.15) !important;
+    opacity: 0.85 !important;
+    clip-path: inset(0 round 8px) !important;
+}
+
+/* 2. Полностью скрываем имена и значки под картами */
+body.st-incognito-active.charListGrid #rm_print_characters_block .ch_name,
+body.st-incognito-active #rm_print_characters_block .ch_name,
+body.st-incognito-active #rm_print_characters_block .character_version,
+body.st-incognito-active #rm_print_characters_block .ch_description,
+body.st-incognito-active #rm_print_characters_block .ch_additional_info {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    display: none !important;
+    pointer-events: none !important;
+}
+
+/* 3. Опционально: если в настройках включено "Скрывать и в самом чате" */
+body.st-incognito-active.st-incognito-chat #chat .mes .avatar img {
+    filter: grayscale(100%) blur(22px) brightness(0.45) contrast(1.15) !important;
+    opacity: 0.85 !important;
+    clip-path: inset(0 round 8px) !important;
+}
+
+body.st-incognito-active.st-incognito-chat #chat .mes .ch_name .name_text,
+body.st-incognito-active.st-incognito-chat #rm_button_selected_ch {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    color: transparent !important;
+    background: transparent !important;
+    text-shadow: none !important;
+}
