@@ -24,9 +24,9 @@ Silly Tavern Incognito Mode Extension
 
 1. Откройте **SillyTavern** -> вкладку **Extensions** (иконка кубиков сверху) -> **Install extension**.
 2. Вставьте ссылку на репозиторий:
-   ```text
+```
  https://github.com/nothingsuspiciousright/ST-incognito-mode
-
+```
 
 # 🌐 English Description
 
@@ -50,11 +50,10 @@ With a single click on the eye icon (`👁️`), it blacks out the background, h
 
 1. Open **SillyTavern** -> go to the **Extensions** tab -> click **Install extension**.
 2. Paste the repository URL:
-   ```text
-  https://github.com/nothingsuspiciousright/ST-incognito-mode
-   ```
-3. Click **Install** and refresh the page!
 ```
+  https://github.com/nothingsuspiciousright/ST-incognito-mode
+ ```
+3. Click **Install** and refresh the page!
 
 ---
 
