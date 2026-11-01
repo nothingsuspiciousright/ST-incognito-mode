@@ -45,32 +45,24 @@ jQuery(() => {
         }
     }
 
-    // 2. Прямой поиск ряда через уникальную иконку папки 📁+ (.fa-folder-plus)
+    // 2. Встраиваем кнопку 7-м самостоятельным элементом в ряд фильтров (на одной линии со всеми!)
     function injectIncognitoButton() {
         if ($('#st-incognito-btn').length > 0) return;
 
-        // Иконка .fa-folder-plus есть только в этом ряду фильтров!
-        const folderIcon = $('.fa-folder-plus').first();
-        if (!folderIcon.length) return;
+        const folderIcon = $('#right-nav-panel .fa-folder-plus').first();
+        const filterIcon = $('#right-nav-panel [class*="fa-filter"]').last();
+        if (!folderIcon.length || !filterIcon.length) return;
 
-        // Если иконка лежит внутри обёртки кнопки (у которой 1 дочерний элемент), берём обёртку
-        const folderSlot = (folderIcon.parent().children().length === 1)
-            ? folderIcon.parent()
-            : folderIcon;
-
-        const rowContainer = folderSlot.parent();
+        // Находим общий родительский ряд, в котором лежат все 6 иконок!
+        const rowContainer = folderIcon.parents().has(filterIcon).first();
         if (!rowContainer.length) return;
 
-        // Ищем в этом же ряду кнопку воронки (6-ю иконку)
-        let funnelSlot = rowContainer.children().filter((_, el) => {
-            return $(el).is('[class*="fa-filter"]') || $(el).find('[class*="fa-filter"]').length > 0;
-        }).last();
+        // Находим внешнюю ячейку 3-й кнопки (папки) и внешнюю ячейку 6-й кнопки (воронки)
+        const folderSlot = rowContainer.children().filter((_, el) => el === folderIcon[0] || $.contains(el, folderIcon[0])).first();
+        const funnelSlot = rowContainer.children().filter((_, el) => el === filterIcon[0] || $.contains(el, filterIcon[0])).first();
+        if (!folderSlot.length || !funnelSlot.length) return;
 
-        if (!funnelSlot.length) {
-            funnelSlot = folderSlot;
-        }
-
-        // Клонируем кнопку папки и меняем иконку на глаз
+        // Клонируем идеально ровную кнопку папки и меняем иконку на глаз
         const newBtn = folderSlot.clone(false);
         newBtn.attr('id', 'st-incognito-btn');
         newBtn.removeAttr('data-i18n');
@@ -85,8 +77,8 @@ jQuery(() => {
             el.addClass('fa-solid fa-eye');
         };
 
-        if (newBtn.find('i').length) {
-            replaceWithEye(newBtn.find('i').first());
+        if (newBtn.find('.fa-folder-plus, i').length) {
+            replaceWithEye(newBtn.find('.fa-folder-plus, i').first());
         } else {
             replaceWithEye(newBtn);
         }
@@ -99,7 +91,7 @@ jQuery(() => {
             applyIncognitoState();
         });
 
-        // Ставим сразу после воронки!
+        // Ставим 7-м элементом в ряд, снаружи от воронки!
         funnelSlot.after(newBtn);
         applyIncognitoState();
     }
